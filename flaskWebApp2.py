@@ -14,21 +14,20 @@ next_id = 3
 
 @app.route('/')
 def index():
-    return ("""<h1>Welcome to my Water Dashboard</h1>"
+    return ("""<h1>Welcome to my First API</h1>
             <p>Try these routes: </p>
             <ul>
             <li><a href="/api/health">/api/health</a></li>
             <li><a href="/api/items">/api/items</a></li>
             <li><a href="/api/items/1">/api/items/1</a></li>
             <li><a href="/api/items/2">/api/items/2</a></li>
-            </ul>
-    """)
+            """)
 
-@app.route('api/health', methods=['GET'])
+@app.route('/api/health', methods=['GET'])
 def health():
-    return jsonify({'status': 'ok'}), 200
+    return jsonify({"status": "OK"}), 200
 
-@app.route('api/items', methods=['GET'])
+@app.route('/api/items', methods=['GET'])
 def list_items():
     return jsonify(DATA), 200
 
@@ -37,7 +36,7 @@ def get_item(item_id):
     for item in DATA:
         if item['id'] == item_id:
             return jsonify(item), 200
-    return jsonify({'error': 'Item not found'}), 404
+    return jsonify({"error": "Item not found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True,port=5000)
