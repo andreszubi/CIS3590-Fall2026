@@ -14,7 +14,16 @@ next_id = 3
 
 @app.route('/')
 def index():
-    return "<h1>Welcome to my First API</h1>"
+    return ("""<h1>Welcome to my Water Dashboard</h1>"
+            <p>Try these routes: </p>
+            <ul>
+            <li><a href="/api/health">/api/health</a></li>
+            <li><a href="/api/items">/api/items</a></li>
+            <li><a href="/api/items/1">/api/items/1</a></li>
+            <li><a href="/api/items/2">/api/items/2</a></li>
+            </ul>
+    """)
+
 @app.route('api/health', methods=['GET'])
 def health():
     return jsonify({'status': 'ok'}), 200
