@@ -3,6 +3,10 @@ import pandas as pd
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return jsonify({"message": "Welcome to my First API"})
+
 #TODO:
 # 1) read the cars.csv file and convert it to a pandas dataframe
 df = pd.read_csv('cars.csv')
@@ -21,11 +25,6 @@ def manufacturers():
 def cars_prices():
     return jsonify(df[['CarName', 'price']].to_dict(orient='records'))
 
-
-
-@app.route('/')
-def index():
-    return jsonify({"message": "Welcome to my First API"})
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)
