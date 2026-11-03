@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from flask import Flask, jsonify
 import pandas as pd
 
@@ -9,16 +11,27 @@ def index():
 
 #TODO:
 # 1) read the cars.csv file and convert it to a pandas dataframe
-df = pd.read_csv('cars.csv')
+df = pd.read_csv(Path(__file__).parent / 'cars.csv')
 # 2) Create a route to return the first 10 rows of the dataframe
 @app.route('/cars')
 def get_cars():
     return jsonify(df.head(10).to_dict(orient='records'))
 
 # 3) Create a route to return the list of car manufacturers
+# cars.csv misspells some manufacturers, so map those to the correct name
+manufacturer_fixes = {
+    'alfa-romero': 'alfa-romeo',
+    'maxda': 'mazda',
+    'porcshce': 'porsche',
+    'toyouta': 'toyota',
+    'vokswagen': 'volkswagen',
+    'vw': 'volkswagen',
+}
+
 @app.route('/manufacturers')
 def manufacturers():
-    return jsonify(df['CarName'].str.split().str[0].unique().tolist())
+    names = df['CarName'].str.split().str[0].str.lower().replace(manufacturer_fixes)
+    return jsonify(names.unique().tolist())
 
 # 4) Create a route to return the car name and price
 @app.route('/cars/prices')
